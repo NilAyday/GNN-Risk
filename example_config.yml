@@ -1,0 +1,64 @@
+seml:
+  executable: run_experiments.py
+  name: example_experiment
+  output_dir: examples/logs
+  project_root_dir: ..
+  description: An example configuration.
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1 # num GPUs
+    mem: 16G # memory
+    cpus-per-task: 2 # num cores
+    time: 0-08:00 # max time, D-HH:MM
+    partition: gpu_all
+
+###### BEGIN PARAMETER CONFIGURATION ######
+
+fixed:
+  max_epochs: 500
+
+grid:
+  learning_rate:
+    type: loguniform
+    min: 1e-5
+    max: 1e-1
+    num: 5
+
+  dataset:
+      type: choice
+      options:
+        - 'cora'
+
+  hidden_sizes:
+      type: choice
+      options:
+        - [16]
+        #- [32, 16] # this will be parsed into a Python list.
+
+
+'''
+random:
+  samples: 3
+  seed: 821
+
+  # SEML supports dot-notation for nested dictionaries.
+  regularization_params.dropout:
+    type: uniform
+    min: 0.0
+    max: 0.7
+    seed: 222
+
+
+    
+  random:
+    samples: 3
+    seed: 2223
+
+    max_epochs:
+      type: randint
+      min: 200
+      max: 1000
+
+'''
