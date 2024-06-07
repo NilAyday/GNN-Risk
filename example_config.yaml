@@ -37,28 +37,3 @@ grid:
         - [16]
         #- [32, 16] # this will be parsed into a Python list.
 
-
-'''
-random:
-  samples: 3
-  seed: 821
-
-  # SEML supports dot-notation for nested dictionaries.
-  regularization_params.dropout:
-    type: uniform
-    min: 0.0
-    max: 0.7
-    seed: 222
-
-
-    
-  random:
-    samples: 3
-    seed: 2223
-
-    max_epochs:
-      type: randint
-      min: 200
-      max: 1000
-
-'''
