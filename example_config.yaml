@@ -1,5 +1,5 @@
 seml:
-  executable: run_experiments.py
+  executable: GNN-Risk/run_experiments.py
   name: example_experiment
   output_dir: examples/logs
   project_root_dir: ..
