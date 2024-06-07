@@ -12,37 +12,126 @@ import pickle
 import itertools
 import pickle
 import os
+import argparse
+import uuid
 
-import logging
-import numpy as np
-from seml import Experiment
+parser = argparse.ArgumentParser()
+parser.add_argument('--dataset', type=str, default='cora', help='Dataset')
+parser.add_argument('--model', type=str, default='gcn_1', help='Which model to train')
+parser.add_argument('--epochs', type=int, default=100, help='Number of epochs to train.')
+parser.add_argument('--lr', type=float, default=0.01, help='learning rate.')
+parser.add_argument('--wd', type=float, default=0.01, help='weight decay (L2 loss on parameters).')
+parser.add_argument('--patience', type=int, default=10, help='patience')
+parser.add_argument('--runs', type=int, default=10, help='number of times the exp run.')
+parser.add_argument('--dropout', type=float, default=0.5, help='Dropout rate (1 - keep probability).')
+parser.add_argument('--nhid_list', type=str, default='[]', help='Hidden dim list.')
+
+#args = parser.parse_args()
+args, unknown = parser.parse_known_args()
+print(args)
+
+#args.nhid_list= [float(i) for i in args.nhid_list.split(',')] 
+args.nhid_list = [int(float(i)) for i in args.nhid_list.replace(' ', '').split(',')]
+
+#if ',' in args.nhid_listeight_decay['nhid_list'] else []
+
+print(args.nhid_list)
+adj, features, labels,idx_train,idx_val,idx_test = load_citation(args.dataset)
 
 
-ex = Experiment()
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+features = features.to(device)
+adj = adj.to(device).coalesce()
+n=features.shape[0]
+nfeat=features.shape[1]
+nclass = len(torch.unique(labels))
+
+checkpt_file = 'pretrained/'+uuid.uuid4().hex+'.pt'
 
 
-@ex.automain
-def run(
-    dataset: str,
-    hidden_sizes: list,
-    learning_rate: float,
-    max_epochs: int,
-    regularization_params: dict,
-):
-    # Note that regularization_params contains the corresponding sub-dictionary from the configuration.
-    logging.info("Received the following configuration:")
-    logging.info(
-        f"Dataset: {dataset}, hidden sizes: {hidden_sizes}, learning_rate: {learning_rate}, "
-        f"max_epochs: {max_epochs}, regularization: {regularization_params}"
-    )
+if args.model == "model_1":
+    conv_layer = my_GraphConvolution1
+elif args.model == "model_2":
+    conv_layer = my_GraphConvolution2
+elif args.model == "model_3":
+    conv_layer = my_GraphConvolution3
+elif args.model == "model_4":
+    conv_layer = my_GraphConvolution4
+else:
+    raise ValueError("Invalid model type specified")
 
-    #  do your processing here
-    adj, features, labels,idx_train,idx_val,idx_test = load_citation(dataset)
+model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
 
-    results = {
-        "test_acc": 0.5 + 0.3 * np.random.randn(),
-        "test_loss": np.random.uniform(0, 10),
-        # ...
-    }
-    # the returned result will be written into the database
-    return results
+results = []
+    
+for run in range(args.runs):
+        t_total = time.time()
+        bad_counter = 0
+        best = float('inf')
+        best_epoch = 0
+        best_val_acc = 0
+        train_acc_list = []
+        val_acc_list = []
+        test_acc_list = []
+
+       
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
+
+        for epoch in range(args.epochs):
+           
+            loss_tra, acc_tra = train(model, optimizer, features, adj, labels,idx_train,device)
+            loss_val, acc_val = validate(model, features, adj, labels,idx_val,device)
+            train_acc_list.append(acc_tra)
+            val_acc_list.append(acc_val)
+
+            if (epoch + 1) % 10 == 0:
+                print('Run:{:02d}'.format(run+1),
+                      'Epoch:{:04d}'.format(epoch+1),
+                      'train',
+                      'loss:{:.3f}'.format(loss_tra),
+                      'acc:{:.2f}'.format(acc_tra * 100),
+                      '| val',
+                      'loss:{:.3f}'.format(loss_val),
+                      'acc:{:.2f}'.format(acc_val * 100))
+
+            if loss_val < best:
+                best = loss_val
+                best_epoch = epoch
+                best_val_acc = acc_val
+                torch.save(model.state_dict(), checkpt_file)
+                bad_counter = 0
+            else:
+                bad_counter += 1
+
+            if bad_counter == args.patience:
+                break
+
+        test_acc = test(model, features, adj, labels,idx_test,checkpt_file,device)[1]
+        test_acc_list.append(test_acc)
+
+        results.append({
+            'run': run + 1,
+            'train_acc': train_acc_list,
+            'val_acc': val_acc_list,
+            'test_acc': test_acc_list,
+            'best_epoch': best_epoch,
+            'best_val_acc': best_val_acc,
+            'train_acc_mean': np.mean(train_acc_list),
+            'train_acc_std': np.std(train_acc_list),
+            'val_acc_mean': np.mean(val_acc_list),
+            'val_acc_std': np.std(val_acc_list),
+            'test_acc_mean': np.mean(test_acc_list),
+            'test_acc_std': np.std(test_acc_list),
+        })
+
+    # Create the directory if it does not exist
+results_dir = 'results'
+os.makedirs(results_dir, exist_ok=True)
+
+    # Construct the file name
+file_name = f'{args.model}_dataset={args.dataset}_nhid={args.nhid_list}_dropout={args.dropout}_epochs={args.epochs}_lr={args.lr}_wd={args.wd}_patience={args.patience}_runs={args.runs}.pkl'
+file_path = os.path.join(results_dir, file_name)
+
+with open(file_path, 'wb') as f:
+    pickle.dump(results, f)
+

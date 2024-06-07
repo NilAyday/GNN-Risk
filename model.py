@@ -77,11 +77,49 @@ class GCN(nn.Module):
         x = self.gc2(x, adj)
         return F.log_softmax(x, dim=1)
 
-class my_GraphConvolution(nn.Module):
-    
 
-    def __init__(self, in_features, out_features, bias=True):
-        super(my_GraphConvolution, self).__init__()
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.nn import Parameter
+import math
+
+# [AH,A,X]
+class my_GraphConvolution1(nn.Module):
+    def __init__(self, in_features, out_features, nfeat, n, bias=True):
+        super(my_GraphConvolution1, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+        self.weight = Parameter(torch.FloatTensor(in_features + n + nfeat, out_features))
+        if bias:
+            self.bias = Parameter(torch.FloatTensor(out_features))
+        else:
+            self.register_parameter('bias', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.weight.size(1))
+        self.weight.data.uniform_(-stdv, stdv)
+        if self.bias is not None:
+            self.bias.data.uniform_(-stdv, stdv)
+
+    def forward(self, input, adj, x):
+        support = torch.cat((torch.mm(adj.to_dense(), input), adj.to_dense(), x), 1)
+        output = torch.mm(support, self.weight)
+        if self.bias is not None:
+            return output + self.bias
+        else:
+            return output
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' (' \
+               + str(self.in_features) + ' -> ' \
+               + str(self.out_features) + ')'
+
+# [AH+H]
+class my_GraphConvolution2(nn.Module):
+    def __init__(self, in_features, out_features, nfeat, n, bias=True):
+        super(my_GraphConvolution2, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
         self.weight = Parameter(torch.FloatTensor(in_features, out_features))
@@ -97,18 +135,9 @@ class my_GraphConvolution(nn.Module):
         if self.bias is not None:
             self.bias.data.uniform_(-stdv, stdv)
 
-    def forward(self, input, adj):
-        
-        
-        #support = torch.cat((input-torch.mm(adj.to_dense(), input), adj.to_dense()),1)
-        
-        #support = torch.cat((input, adj.to_dense()),1)
-        #output = torch.mm(support, self.weight)
-
-        output= torch.mm(torch.mm(adj.to_dense(), input) + input, self.weight)
-
-       
-        
+    def forward(self, input, adj, x):
+        support = torch.mm(adj.to_dense(), input) + input
+        output = torch.mm(support, self.weight)
         if self.bias is not None:
             return output + self.bias
         else:
@@ -118,25 +147,97 @@ class my_GraphConvolution(nn.Module):
         return self.__class__.__name__ + ' (' \
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
-        
-class my_GCN(nn.Module):
-    def __init__(self,n, nfeat, nhid, nclass, dropout):
-        super(my_GCN, self).__init__()
 
-        self.gc1 = my_GraphConvolution(int(round(nfeat)) ,nhid)
-        #self.gc1 = my_GraphConvolution(int(round(nfeat + n)) , int(round((nfeat + n)/2)))
-        self.gc2 = my_GraphConvolution(nhid , nclass)
+# [X,AH+H]
+class my_GraphConvolution3(nn.Module):
+    def __init__(self, in_features, out_features, nfeat, n, bias=True):
+        super(my_GraphConvolution3, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+        self.weight = Parameter(torch.FloatTensor(nfeat + in_features, out_features))
+        if bias:
+            self.bias = Parameter(torch.FloatTensor(out_features))
+        else:
+            self.register_parameter('bias', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.weight.size(1))
+        self.weight.data.uniform_(-stdv, stdv)
+        if self.bias is not None:
+            self.bias.data.uniform_(-stdv, stdv)
+
+    def forward(self, input, adj, x):
+        support = torch.cat((x, torch.mm(adj.to_dense(), input) + input), 1)
+        output = torch.mm(support, self.weight)
+        if self.bias is not None:
+            return output + self.bias
+        else:
+            return output
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' (' \
+               + str(self.in_features) + ' -> ' \
+               + str(self.out_features) + ')'
+
+# [AH,X]
+class my_GraphConvolution4(nn.Module):
+    def __init__(self, in_features, out_features, nfeat, n, bias=True):
+        super(my_GraphConvolution4, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+        self.weight = Parameter(torch.FloatTensor(nfeat + in_features, out_features))
+        if bias:
+            self.bias = Parameter(torch.FloatTensor(out_features))
+        else:
+            self.register_parameter('bias', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.weight.size(1))
+        self.weight.data.uniform_(-stdv, stdv)
+        if self.bias is not None:
+            self.bias.data.uniform_(-stdv, stdv)
+
+    def forward(self, input, adj, x):
+        support = torch.cat((torch.mm(adj.to_dense(), input), x), 1)
+        output = torch.mm(support, self.weight)
+        if self.bias is not None:
+            return output + self.bias
+        else:
+            return output
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' (' \
+               + str(self.in_features) + ' -> ' \
+               + str(self.out_features) + ')'
+
+class my_GCN(nn.Module):
+    def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
+        super(my_GCN, self).__init__()
+        self.layers = nn.ModuleList()
+        
+        if nhid_list:
+            # Input layer
+            self.layers.append(conv_layer(nfeat, nhid_list[0], nfeat, n))
+            # Hidden layers
+            for i in range(1, len(nhid_list)):
+                self.layers.append(conv_layer(nhid_list[i-1], nhid_list[i], nfeat, n))
+            # Output layer
+            self.layers.append(conv_layer(nhid_list[-1], nclass, nfeat, n))
+        else:
+            # Single output layer
+            self.layers.append(conv_layer(nfeat, nclass, nfeat, n))
         
         self.dropout = dropout
 
     def forward(self, x, adj):
-        #x = self.gc1(x, adj)
+        h = x.detach().requires_grad_()
         
-        h=x.detach().requires_grad_()
-        h = F.relu(self.gc1(h, adj))
-        h = F.dropout(h, self.dropout, training=self.training)
-    
-        h = self.gc2(h, adj)
-     
+        for i, layer in enumerate(self.layers[:-1]):
+            h = F.relu(layer(h, adj, x))
+            h = F.dropout(h, self.dropout, training=self.training)
+        
+        h = self.layers[-1](h, adj, x)
+        
         return F.log_softmax(h, dim=1)
-

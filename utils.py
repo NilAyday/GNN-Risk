@@ -10,6 +10,33 @@ from networkx.readwrite import json_graph
 import pdb
 sys.setrecursionlimit(99999)
 
+def train(model, optimizer, features, adj, labels, idx_train,device):
+    model.train()
+    optimizer.zero_grad()
+    output = model(features, adj)
+    acc_train = accuracy(output[idx_train], labels[idx_train].to(device))
+    loss_train = F.nll_loss(output[idx_train], labels[idx_train].to(device))
+    loss_train.backward()
+    optimizer.step()
+    return loss_train.item(), acc_train.item()
+
+def validate(model, features, adj, labels, idx_val,device):
+    model.eval()
+    with torch.no_grad():
+        output = model(features, adj)
+        loss_val = F.nll_loss(output[idx_val], labels[idx_val].to(device))
+        acc_val = accuracy(output[idx_val], labels[idx_val].to(device))
+        return loss_val.item(), acc_val.item()
+
+def test(model, features, adj, labels, idx_test, checkpt_file,device):
+    model.load_state_dict(torch.load(checkpt_file))
+    model.eval()
+    with torch.no_grad():
+        output = model(features, adj)
+        loss_test = F.nll_loss(output[idx_test], labels[idx_test].to(device))
+        acc_test = accuracy(output[idx_test], labels[idx_test].to(device))
+        return loss_test.item(), acc_test.item()
+        
 
 def accuracy(output, labels):
     preds = output.max(1)[1].type_as(labels)
