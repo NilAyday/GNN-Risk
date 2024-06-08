@@ -46,7 +46,7 @@ n=features.shape[0]
 nfeat=features.shape[1]
 nclass = len(torch.unique(labels))
 
-checkpt_file = 'pretrained/'+uuid.uuid4().hex+'.pt'
+checkpt_file = '/mnt/data-test/pretrained/'+uuid.uuid4().hex+'.pt'
 
 
 
@@ -121,7 +121,7 @@ results.append({
 
     # Create the directory if it does not exist
 results_dir = 'results'
-os.makedirs(results_dir, exist_ok=True)
+os.makedirs(/mnt/data-test/results_dir, exist_ok=True)
 
     # Construct the file name
 file_name = f'{args.model}_dataset={args.dataset}_nhid={args.nhid_list}_dropout={args.dropout}_epochs={args.epochs}_lr={args.lr}_wd={args.wd}_patience={args.patience}_runs={args.runs}.pkl'
@@ -129,5 +129,5 @@ file_name = f'{args.model}_dataset={args.dataset}_nhid={args.nhid_list}_dropout=
 file_path = os.path.join(results_dir, file_name)
 
 with open(file_path, 'wb') as f:
-    pickle.dump(results, f)
+    pickle.dump(/mnt/data-test/results, f)
 
