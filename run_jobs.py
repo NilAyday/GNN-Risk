@@ -1,4 +1,4 @@
-/mnt/data-test/import itertools
+import itertools
 import os
 import subprocess
 import argparse
