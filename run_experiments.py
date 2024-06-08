@@ -120,8 +120,8 @@ results.append({
 })
 
     # Create the directory if it does not exist
-results_dir = 'results'
-os.makedirs(/mnt/data-test/results_dir, exist_ok=True)
+results_dir = '/mnt/data-test/results'
+os.makedirs(results_dir, exist_ok=True)
 
     # Construct the file name
 file_name = f'{args.model}_dataset={args.dataset}_nhid={args.nhid_list}_dropout={args.dropout}_epochs={args.epochs}_lr={args.lr}_wd={args.wd}_patience={args.patience}_runs={args.runs}.pkl'
