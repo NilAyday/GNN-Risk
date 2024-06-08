@@ -88,7 +88,7 @@ def load_citation(dataset_str="cora"):
     names = ['x', 'y', 'tx', 'ty', 'allx', 'ally', 'graph']
     objects = []
     for i in range(len(names)):
-        with open("data/ind.{}.{}".format(dataset_str.lower(), names[i]), 'rb') as f:
+        with open("/mnt/data-test/data/ind.{}.{}".format(dataset_str.lower(), names[i]), 'rb') as f:
             if sys.version_info > (3, 0):
                 objects.append(pkl.load(f, encoding='latin1'))
             else:
