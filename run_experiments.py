@@ -125,7 +125,7 @@ for run in range(args.runs):
         })
 
     # Create the directory if it does not exist
-results_dir = 'results'
+results_dir = '/mnt/data-test/results'
 os.makedirs(results_dir, exist_ok=True)
 
     # Construct the file name
