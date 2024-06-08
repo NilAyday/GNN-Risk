@@ -9,7 +9,7 @@ def hyperparam_combinations(hyperparams):
     
     # Predefined hyperparameters
     predefined_hyperparams = {
-        'model': hyperparams['model'],
+        #'model': hyperparams['model'],
         'dataset': hyperparams['dataset'],
         'epochs': hyperparams['epochs'],
         'patience': hyperparams['patience'],
