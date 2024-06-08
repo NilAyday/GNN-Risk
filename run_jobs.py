@@ -26,8 +26,8 @@ def hyperparam_combinations(hyperparams):
     return combinations
 
 def check_existing_results(combination):
-    model_name = "model_1"  # Modify this if you want to use other models
-    dataset = "cora"  # Modify this if you want to use other datasets
+    #model_name = "model_1"  # Modify this if you want to use other models
+    #dataset = "cora"  # Modify this if you want to use other datasets
     
     
     nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
@@ -60,7 +60,7 @@ def run_experiment(combination):
 
 def main():
     hyperparams = {
-        'model': 'model_1',
+        'model': ['model_1','model_2'],
         'dataset': 'cora',
         'epochs': 100,
         'patience':10,
