@@ -46,7 +46,7 @@ n=features.shape[0]
 nfeat=features.shape[1]
 nclass = len(torch.unique(labels))
 
-checkpt_file = 'pretrained/'+uuid.uuid4().hex+'.pt'
+checkpt_file = '/mnt/data-test/pretrained/'+uuid.uuid4().hex+'.pt'
 
 
 if args.model == "model_1":
