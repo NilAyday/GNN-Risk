@@ -1,4 +1,4 @@
-import itertools
+/mnt/data-test/import itertools
 import os
 import subprocess
 import argparse
@@ -32,7 +32,7 @@ def check_existing_results(combination):
     
     nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
     
-    file_name = f"results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs={combination['epochs']}_lr={combination['lr']}_wd={combination['wd']}_patience={combination['patience']}_runs={combination['runs']}.pkl"
+    file_name = f"/mnt/data-test/results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs={combination['epochs']}_lr={combination['lr']}_wd={combination['wd']}_patience={combination['patience']}_runs={combination['runs']}.pkl"
     #file_name = f"results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs=200_lr=0.05_wd=0.0005_patience=10_runs=3.pkl"
     #file_name = f"results/model_1_dataset=cora_nhid=[256, 512]_dropout=0.5_epochs=200_lr=0.05_wd=0.0005_patience=10_runs=3.pkl"
     
