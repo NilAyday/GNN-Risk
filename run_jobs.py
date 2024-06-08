@@ -60,15 +60,15 @@ def run_experiment(combination):
 
 def main():
     hyperparams = {
-        'model': 'model_2',
+        'model': 'model_1',
         'dataset': 'cora',
         'epochs': 100,
         'patience':10,
         'runs': 10,
-        'lr': [0.05,0.001],
-        'wd': [5e-4,5e-3],
-        'dropout': [0.5],
-        'nhid_list': ['256,512']
+        'lr':[0.05, 0.01, 0.005, 0.001],
+        'wd': [5e-4, 5e-3, 1e-4, 1e-3],
+        'dropout':[0.5, 0.3, 0.4] ,
+        'nhid_list': ['32','64','256,512','32,32','64,64','64,32','256,128,64','32,16']
     }
     
     combinations = hyperparam_combinations(hyperparams)
