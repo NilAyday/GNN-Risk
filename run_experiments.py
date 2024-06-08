@@ -129,5 +129,5 @@ file_name = f'{args.model}_dataset={args.dataset}_nhid={args.nhid_list}_dropout=
 file_path = os.path.join(results_dir, file_name)
 
 with open(file_path, 'wb') as f:
-    pickle.dump(/mnt/data-test/results, f)
+    pickle.dump(results, f)
 
