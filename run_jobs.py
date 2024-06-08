@@ -44,7 +44,7 @@ def run_experiment(combination):
 
     nhid_str = ' '.join(map(str, combination['nhid_list']))
     command = [
-        'python', 'run_experiments.py',
+        'python', '/mnt/data-test/run_experiments.py',
         '--dataset', str(combination['dataset']),
         '--model', str(combination['model']),
         '--runs', str(combination['runs']),
