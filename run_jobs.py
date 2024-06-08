@@ -26,13 +26,13 @@ def hyperparam_combinations(hyperparams):
     return combinations
 
 def check_existing_results(combination):
-    #model_name = "model_1"  # Modify this if you want to use other models
-    #dataset = "cora"  # Modify this if you want to use other datasets
+    model_name = "model_1"  # Modify this if you want to use other models
+    dataset = "cora"  # Modify this if you want to use other datasets
     
     
     nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
     
-    file_name = f"/mnt/data-test/results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs={combination['epochs']}_lr={combination['lr']}_wd={combination['wd']}_patience={combination['patience']}_runs={combination['runs']}.pkl"
+    file_name = f"results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs={combination['epochs']}_lr={combination['lr']}_wd={combination['wd']}_patience={combination['patience']}_runs={combination['runs']}.pkl"
     #file_name = f"results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs=200_lr=0.05_wd=0.0005_patience=10_runs=3.pkl"
     #file_name = f"results/model_1_dataset=cora_nhid=[256, 512]_dropout=0.5_epochs=200_lr=0.05_wd=0.0005_patience=10_runs=3.pkl"
     
@@ -44,7 +44,7 @@ def run_experiment(combination):
 
     nhid_str = ' '.join(map(str, combination['nhid_list']))
     command = [
-        'python', '/mnt/data-test/run_experiments.py',
+        'python', 'run_experiments.py',
         '--dataset', str(combination['dataset']),
         '--model', str(combination['model']),
         '--runs', str(combination['runs']),
@@ -60,15 +60,15 @@ def run_experiment(combination):
 
 def main():
     hyperparams = {
-        'model': ['model_1','model_2'],
+        'model': ['model_1'],
         'dataset': 'cora',
         'epochs': 100,
         'patience':10,
         'runs': 10,
-        'lr':[0.05, 0.01, 0.005, 0.001],
-        'wd': [5e-4, 5e-3, 1e-4, 1e-3],
-        'dropout':[0.5, 0.3, 0.4] ,
-        'nhid_list': ['32','64','256,512','32,32','64,64','64,32','256,128,64','32,16']
+        'lr': [0.001],
+        'wd': [5e-4,5e-3],
+        'dropout': [0.5],
+        'nhid_list': ['16,16','32,32']
     }
     
     combinations = hyperparam_combinations(hyperparams)

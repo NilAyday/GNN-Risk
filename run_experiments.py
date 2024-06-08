@@ -46,7 +46,8 @@ n=features.shape[0]
 nfeat=features.shape[1]
 nclass = len(torch.unique(labels))
 
-checkpt_file = '/mnt/data-test/pretrained/'+uuid.uuid4().hex+'.pt'
+checkpt_file = 'pretrained/'+uuid.uuid4().hex+'.pt'
+
 
 
 if args.model == "model_1":
@@ -60,9 +61,13 @@ elif args.model == "model_4":
 else:
     raise ValueError("Invalid model type specified")
 
-model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
+
 
 results = []
+
+val_acc_list = []
+test_acc_list = []
+
     
 for run in range(args.runs):
         t_total = time.time()
@@ -70,19 +75,15 @@ for run in range(args.runs):
         best = float('inf')
         best_epoch = 0
         best_val_acc = 0
-        train_acc_list = []
-        val_acc_list = []
-        test_acc_list = []
-
-       
+        
+        model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
 
         for epoch in range(args.epochs):
            
             loss_tra, acc_tra = train(model, optimizer, features, adj, labels,idx_train,device)
             loss_val, acc_val = validate(model, features, adj, labels,idx_val,device)
-            train_acc_list.append(acc_tra)
-            val_acc_list.append(acc_val)
+            
 
             if (epoch + 1) % 10 == 0:
                 print('Run:{:02d}'.format(run+1),
@@ -105,31 +106,26 @@ for run in range(args.runs):
 
             if bad_counter == args.patience:
                 break
-
+        
+        val_acc_list.append(best_val_acc)
         test_acc = test(model, features, adj, labels,idx_test,checkpt_file,device)[1]
         test_acc_list.append(test_acc)
 
-        results.append({
-            'run': run + 1,
-            'train_acc': train_acc_list,
-            'val_acc': val_acc_list,
-            'test_acc': test_acc_list,
-            'best_epoch': best_epoch,
-            'best_val_acc': best_val_acc,
-            'train_acc_mean': np.mean(train_acc_list),
-            'train_acc_std': np.std(train_acc_list),
-            'val_acc_mean': np.mean(val_acc_list),
-            'val_acc_std': np.std(val_acc_list),
-            'test_acc_mean': np.mean(test_acc_list),
-            'test_acc_std': np.std(test_acc_list),
-        })
+results.append({
+    'run': run + 1,
+    'val_acc_mean': np.mean(val_acc_list),
+    'val_acc_std': np.std(val_acc_list),
+    'test_acc_mean': np.mean(test_acc_list),
+    'test_acc_std': np.std(test_acc_list),
+})
 
     # Create the directory if it does not exist
-results_dir = '/mnt/data-test/results'
+results_dir = 'results'
 os.makedirs(results_dir, exist_ok=True)
 
     # Construct the file name
 file_name = f'{args.model}_dataset={args.dataset}_nhid={args.nhid_list}_dropout={args.dropout}_epochs={args.epochs}_lr={args.lr}_wd={args.wd}_patience={args.patience}_runs={args.runs}.pkl'
+
 file_path = os.path.join(results_dir, file_name)
 
 with open(file_path, 'wb') as f:
