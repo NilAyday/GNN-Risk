@@ -25,7 +25,7 @@ from torch.nn import Parameter
 from typing import List, Optional
 from torch import Tensor
 
-from torch_sparse import SparseTensor
+#from torch_sparse import SparseTensor
 
 #https://github.com/tkipf/pygcn/tree/master
 class GraphConvolution(nn.Module):
