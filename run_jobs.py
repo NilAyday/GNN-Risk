@@ -62,7 +62,7 @@ def main():
 
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=int, default='model_1', help='Which model to train.')
+    parser.add_argument('--model', type=str, default='model_1', help='Which model to train.')
     args = parser.parse_args()
     
     hyperparams = {
