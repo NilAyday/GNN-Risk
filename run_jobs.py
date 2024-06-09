@@ -60,7 +60,7 @@ def run_experiment(combination):
 
 def main():
     hyperparams = {
-        'model': ['model_2','model_3','model_4'],
+        'model': ['model_2'],
         'dataset': 'cora',
         'epochs': 100,
         'patience':10,
