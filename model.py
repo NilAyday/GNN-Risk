@@ -268,8 +268,9 @@ class my_GraphConvolution6(nn.Module):
         print(n)
         print(in_features)
         print(in_features + n + nfeat)
+        print(out_features)
         print(torch.FloatTensor(in_features + n + nfeat, out_features))
-        self.weight = Parameter(torch.FloatTensor(in_features + n + nfeat, out_features))
+        self.weight = Parameter(torch.FloatTensor(int(in_features + n + nfeat), int(out_features)))
         if bias:
             self.bias = Parameter(torch.FloatTensor(out_features))
         else:
