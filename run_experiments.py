@@ -61,6 +61,10 @@ elif args.model == "model_4":
     conv_layer = my_GraphConvolution4
 elif args.model == "model_5":
     conv_layer = my_GraphConvolution5
+elif args.model == "model_6":
+    conv_layer = my_GraphConvolution6
+elif args.model == "model_7":
+    conv_layer = my_GraphConvolution7
 else:
     raise ValueError("Invalid model type specified")
 
