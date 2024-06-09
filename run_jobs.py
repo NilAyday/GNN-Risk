@@ -59,8 +59,14 @@ def run_experiment(combination):
     subprocess.run(command)
 
 def main():
+
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', type=int, default='model_1', help='Which model to train.')
+    args = parser.parse_args()
+    
     hyperparams = {
-        'model': ['model_2'],
+        'model': [args.model],
         'dataset': 'cora',
         'epochs': 100,
         'patience':10,
