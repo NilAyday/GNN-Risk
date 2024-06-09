@@ -67,7 +67,7 @@ def main():
     args = parser.parse_args()
     
     hyperparams = {
-        'model': [args.model],
+        'model': args.model,
         'dataset': 'cora',
         'epochs': 100,
         'patience':10,
