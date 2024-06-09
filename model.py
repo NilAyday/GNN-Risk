@@ -217,7 +217,7 @@ class my_GraphConvolution5(nn.Module):
     
 
     def __init__(self, in_features, out_features,nfeat,n, bias=True):
-        super(my_GraphConvolution, self).__init__()
+        super(my_GraphConvolution5, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
         self.weight = Parameter(torch.FloatTensor(in_features+nfeat, out_features))
