@@ -14,6 +14,7 @@ def read_pickle_files(results_dir):
 def get_highest_accuracy(results, model_name):
     max_acc = 0
     r_std=0
+    std=0
     best_combination = None
     for file_name, data in results.items():
         if model_name in file_name:
@@ -33,14 +34,14 @@ def main():
     results = read_pickle_files(results_dir)
     print(type(results))
     print(results.keys)
-    max_acc,std, best_combination = get_highest_accuracy(results, model_name)
+    for model_name in ['model_1','model_2','model_3','model_4']:
+        max_acc, max_acc_std, best_combination = get_highest_accuracy(results, model_name)
     
-    if best_combination:
-        print(f"The highest validation accuracy achieved by {model_name} is {max_acc*100:.2f}% with a standard deviation of {std*100:.2f}%")
-
-        print(f"Best combination: {best_combination}")
-    else:
-        print(f"No results found for {model_name}")
+        if best_combination:
+            print(f"The highest validation accuracy achieved by {model_name} is {max_acc*100:.2f}% with a standard deviation of {max_acc_std*100:.2f}%")
+            print(f"Best combination: {best_combination}")
+        else:
+            print(f"No results found for {model_name}")
 
 if __name__ == "__main__":
     main()
