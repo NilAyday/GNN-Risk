@@ -43,5 +43,6 @@ def main():
         else:
             print(f"No results found for {model_name}")
 
+        print("\n")
 if __name__ == "__main__":
     main()
