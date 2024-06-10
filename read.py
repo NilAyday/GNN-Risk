@@ -24,7 +24,7 @@ def get_highest_accuracy(results, model_name):
             if max_val_acc > max_acc:
                 max_acc = max_val_acc
                 test_acc=data[0]['test_acc_mean']
-                test_std=data[0]['test_std_mean']
+                test_std=data[0]['test_acc_std']
                 r_std=std
                 best_combination = file_name
     return max_acc,std, best_combination, test_acc,test_std
