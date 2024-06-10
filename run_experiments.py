@@ -31,8 +31,8 @@ args, unknown = parser.parse_known_args()
 print(args)
 
 #args.nhid_list= [float(i) for i in args.nhid_list.split(',')] 
-#args.nhid_list = [int(float(i)) for i in args.nhid_list.replace(' ', '').split(',')]
-args.nhid_list = str([int(float(i)) for i in args.nhid_list.replace(' ', '').split(',') if i]) if args.nhid_list else args.nhid_list
+args.nhid_list = [int(float(i)) for i in args.nhid_list.replace(' ', '').split(',')]
+#args.nhid_list = str([int(float(i)) for i in args.nhid_list.replace(' ', '').split(',') if i]) if args.nhid_list else args.nhid_list
 
 #if ',' in args.nhid_listeight_decay['nhid_list'] else []
 
