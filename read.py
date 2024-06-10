@@ -14,6 +14,7 @@ def read_pickle_files(results_dir):
 def get_highest_accuracy(results, model_name):
     max_acc = 0
     test_acc=0
+    test_std=0
     r_std=0
     std=0
     best_combination = None
