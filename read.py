@@ -30,14 +30,12 @@ def get_highest_accuracy(results, model_name):
     return max_acc,std, best_combination, test_acc,test_std
 
 def main():
-    #results_dir = '/mnt/data-test/results'  # Directory where the results pickle files are stored
-    results_dir = 'results'  # Directory where the results pickle files are stored
-    model_name = 'model_1'  # Specify the model name to search for
+    results_dir = '/mnt/data-test/results'  # Directory where the results pickle files are stored
     
     results = read_pickle_files(results_dir)
     print(type(results))
     print(results.keys)
-    for model_name in ['model_1','model_2','model_3','model_4','model_5','model_6','model_7']:
+    for model_name in ['model_1','model_2','model_3','model_4','model_5','model_6','model_7','model_8','model_9','model_10']:
         max_acc, max_acc_std, best_combination,test_acc,test_std = get_highest_accuracy(results, model_name)
     
         if best_combination:
