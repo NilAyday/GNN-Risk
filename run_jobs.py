@@ -30,7 +30,7 @@ def check_existing_results(combination):
     dataset = "cora"  # Modify this if you want to use other datasets
     
     
-    nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
+    #nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
     nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',') if i]) if combination['nhid_list'] else combination['nhid_list']
     
     file_name = f"/mnt/data-test/results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs={combination['epochs']}_lr={combination['lr']}_wd={combination['wd']}_patience={combination['patience']}_runs={combination['runs']}.pkl"
