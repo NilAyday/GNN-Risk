@@ -30,8 +30,8 @@ def check_existing_results(combination):
     dataset = "cora"  # Modify this if you want to use other datasets
     
     
-    #nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
-    nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',') if i]) if combination['nhid_list'] else combination['nhid_list']
+    nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
+    #nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',') if i]) if combination['nhid_list'] else combination['nhid_list']
     
     file_name = f"/mnt/data-test/results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs={combination['epochs']}_lr={combination['lr']}_wd={combination['wd']}_patience={combination['patience']}_runs={combination['runs']}.pkl"
     #file_name = f"results/{combination['model']}_dataset={combination['dataset']}_nhid={nhid_list}_dropout={combination['dropout']}_epochs=200_lr=0.05_wd=0.0005_patience=10_runs=3.pkl"
@@ -75,7 +75,7 @@ def main():
         'lr': [0.05, 0.01, 0.005, 0.001],
         'wd':[5e-4, 5e-3, 1e-4, 1e-3],
         'dropout':  [0.5, 0.3, 0.4, 0.2],
-        'nhid_list': ['','512,128,64,32','512,128,64','512,128','32,16','64,32','16,16','32,32','256','128','64','32','16']
+        'nhid_list': ['512,128,64,32','512,128,64','512,128','32,16','64,32','16,16','32,32','256','128','64','32','16']
     }
     
     combinations = hyperparam_combinations(hyperparams)
