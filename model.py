@@ -497,7 +497,8 @@ class my_GCN(nn.Module):
     def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
         super(my_GCN, self).__init__()
         self.layers = nn.ModuleList()
-        
+
+        print(nhid_list)
         if nhid_list:
             # Input layer
             self.layers.append(conv_layer(nfeat, nhid_list[0], nfeat, n))
