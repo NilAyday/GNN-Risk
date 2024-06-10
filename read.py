@@ -36,7 +36,7 @@ def main():
     results = read_pickle_files(results_dir)
     print(type(results))
     print(results.keys)
-    for model_name in ['model_1','model_2','model_3','model_4','model_5','model_6','model_7','model_8','model_9','model_10']:
+    for model_name in ['model_1','model_2','model_3','model_4','model_5','model_6','model_7','model_8','model_9','model_10','model_11','model_12']:
         max_acc, max_acc_std, best_combination,test_acc,test_std = get_highest_accuracy(results, model_name)
     
         if best_combination:
