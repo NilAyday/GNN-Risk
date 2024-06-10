@@ -379,6 +379,44 @@ class my_GraphConvolution8(nn.Module):
         return self.__class__.__name__ + ' (' \
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
+
+class my_GraphConvolution9(nn.Module):
+    
+
+    def __init__(self, in_features, out_features,nfeat, bias=True):
+        super(my_GraphConvolution, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+        self.weight = Parameter(torch.FloatTensor(2*in_features, out_features))
+        if bias:
+            self.bias = Parameter(torch.FloatTensor(out_features))
+        else:
+            self.register_parameter('bias', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.weight.size(1))
+        self.weight.data.uniform_(-stdv, stdv)
+        if self.bias is not None:
+            self.bias.data.uniform_(-stdv, stdv)
+
+    def forward(self, input, adj,x):
+        
+        
+        #support = 0.9*torch.mm(adj.to_dense(), input) + 0.1*input
+        support = torch.cat((0.9*torch.mm(adj.to_dense(), input), 0.1*input),1)
+        output = torch.mm(support, self.weight)
+
+        
+        if self.bias is not None:
+            return output + self.bias
+        else:
+            return output
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' (' \
+               + str(self.in_features) + ' -> ' \
+               + str(self.out_features) + ')'
 class my_GCN(nn.Module):
     def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
         super(my_GCN, self).__init__()
