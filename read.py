@@ -41,7 +41,7 @@ def main():
     
         if best_combination:
             print(f"The highest validation accuracy achieved by {model_name} is {max_acc*100:.2f}% with a standard deviation of {max_acc_std*100:.2f}%")
-             print(f"Test acc is {test_acc*100:.2f}% with a standard deviation of {test_std*100:.2f}%")
+            print(f"Test acc is {test_acc*100:.2f}% with a standard deviation of {test_std*100:.2f}%")
             print(f"Best combination: {best_combination}")
         else:
             print(f"No results found for {model_name}")
