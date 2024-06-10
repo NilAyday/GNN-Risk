@@ -342,7 +342,7 @@ class my_GraphConvolution7(nn.Module):
                + str(self.out_features) + ')'
         
 class my_GraphConvolution8(nn.Module):
-    def __init__(self, in_features, out_features,nfeat, bias=True):
+    def __init__(self, in_features, out_features,nfeat, n,bias=True):
         super(my_GraphConvolution8, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
@@ -383,7 +383,7 @@ class my_GraphConvolution8(nn.Module):
 class my_GraphConvolution9(nn.Module):
     
 
-    def __init__(self, in_features, out_features,nfeat, bias=True):
+    def __init__(self, in_features, out_features,nfeat, n,bias=True):
         super(my_GraphConvolution9, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
@@ -421,7 +421,7 @@ class my_GraphConvolution9(nn.Module):
 class my_GraphConvolution10(nn.Module):
     
 
-    def __init__(self, in_features, out_features,nfeat, bias=True):
+    def __init__(self, in_features, out_features,nfeat,n, bias=True):
         super(my_GraphConvolution10, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
@@ -459,7 +459,7 @@ class my_GraphConvolution10(nn.Module):
 class my_GraphConvolution11(nn.Module):
     
 
-    def __init__(self, in_features, out_features,nfeat, bias=True):
+    def __init__(self, in_features, out_features,nfeat,n, bias=True):
         super(my_GraphConvolution11, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
