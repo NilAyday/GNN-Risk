@@ -340,7 +340,7 @@ class my_GraphConvolution7(nn.Module):
         return self.__class__.__name__ + ' (' \
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
-        
+#0.9*AH + 0.1*H   
 class my_GraphConvolution8(nn.Module):
     def __init__(self, in_features, out_features,nfeat, n,bias=True):
         super(my_GraphConvolution8, self).__init__()
@@ -380,6 +380,7 @@ class my_GraphConvolution8(nn.Module):
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
 
+#[0.9AH 0.1H]
 class my_GraphConvolution9(nn.Module):
     
 
@@ -418,6 +419,7 @@ class my_GraphConvolution9(nn.Module):
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
 
+#[0.8AH 0.1H 0.1X]
 class my_GraphConvolution10(nn.Module):
     
 
@@ -455,7 +457,7 @@ class my_GraphConvolution10(nn.Module):
         return self.__class__.__name__ + ' (' \
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
-
+#[AH H]
 class my_GraphConvolution11(nn.Module):
     def __init__(self, in_features, out_features,nfeat,n, bias=True):
         super(my_GraphConvolution11, self).__init__()
@@ -478,7 +480,7 @@ class my_GraphConvolution11(nn.Module):
         
         
         #support = 0.9*torch.mm(adj.to_dense(), input) + 0.1*input
-        support = torch.cat((0.8*torch.mm(adj.to_dense(), input), 0.1*input,0.1*x),1)
+        support = torch.cat((torch.mm(adj.to_dense(), input), input),1)
         output = torch.mm(support, self.weight)
 
         
