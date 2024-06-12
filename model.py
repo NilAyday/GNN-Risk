@@ -463,7 +463,7 @@ class my_GraphConvolution11(nn.Module):
         super(my_GraphConvolution11, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
-        self.weight = Parameter(torch.FloatTensor(2*in_features+nfeat, out_features))
+        self.weight = Parameter(torch.FloatTensor(2*in_features, out_features))
         if bias:
             self.bias = Parameter(torch.FloatTensor(out_features))
         else:
