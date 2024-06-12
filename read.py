@@ -20,19 +20,20 @@ def get_highest_accuracy(results, model_name):
     best_combination = None
     for file_name, data in results.items():
         if model_name in file_name:
-            max_val_acc  = data[0]['val_acc_mean']
-            std=data[0]['val_acc_std']
-            if max_val_acc > max_acc:
-                max_acc = max_val_acc
-                test_acc=data[0]['test_acc_mean']
-                test_std=data[0]['test_acc_std']
-                r_std=std
-                best_combination = file_name
+            if data_name in file_name:
+                max_val_acc  = data[0]['val_acc_mean']
+                std=data[0]['val_acc_std']
+                if max_val_acc > max_acc:
+                    max_acc = max_val_acc
+                    test_acc=data[0]['test_acc_mean']
+                    test_std=data[0]['test_acc_std']
+                    r_std=std
+                    best_combination = file_name
     return max_acc,std, best_combination, test_acc,test_std
 
 def main():
     results_dir = '/mnt/data-test/results'  # Directory where the results pickle files are stored
-    
+    data_name='citeseer'
     results = read_pickle_files(results_dir)
     print(type(results))
     print(results.keys)
