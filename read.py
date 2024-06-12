@@ -11,7 +11,7 @@ def read_pickle_files(results_dir):
                 results[file_name] = data
     return results
 
-def get_highest_accuracy(results, model_name):
+def get_highest_accuracy(results, model_name,data_name):
     max_acc = 0
     test_acc=0
     test_std=0
@@ -38,7 +38,7 @@ def main():
     print(type(results))
     print(results.keys)
     for model_name in ['model_1','model_2','model_3','model_4','model_5','model_6','model_7','model_8','model_9','model_10','model_11','model_12']:
-        max_acc, max_acc_std, best_combination,test_acc,test_std = get_highest_accuracy(results, model_name)
+        max_acc, max_acc_std, best_combination,test_acc,test_std = get_highest_accuracy(results, model_name,data_name)
     
         if best_combination:
             print(f"The highest validation accuracy achieved by {model_name} is {max_acc*100:.2f}% with a standard deviation of {max_acc_std*100:.2f}%")
