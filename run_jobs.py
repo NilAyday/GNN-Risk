@@ -68,7 +68,7 @@ def main():
     
     hyperparams = {
         'model': [args.model],
-        'dataset': 'citeseer',
+        'dataset': 'cora',
         'epochs': 100,
         'patience':10,
         'runs': 10,
