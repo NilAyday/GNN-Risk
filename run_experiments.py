@@ -128,6 +128,8 @@ for run in range(args.runs):
         test_acc = test(model, features, adj, labels,idx_test,checkpt_file,device)[1]
         test_acc_list.append(test_acc)
 
+        torch.cuda.empty_cache()
+
 results.append({
     'run': run + 1,
     'val_acc_mean': np.mean(val_acc_list),
