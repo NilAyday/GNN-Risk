@@ -18,7 +18,8 @@ import uuid
 
 
 
-
+import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:1024"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='cora', help='Dataset')
