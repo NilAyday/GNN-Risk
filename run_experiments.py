@@ -15,6 +15,10 @@ import os
 import argparse
 import uuid
 
+import gc
+del variables
+gc.collect()
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='cora', help='Dataset')
 parser.add_argument('--model', type=str, default='gcn_1', help='Which model to train')
