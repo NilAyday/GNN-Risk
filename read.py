@@ -33,7 +33,7 @@ def get_highest_accuracy(results, model_name,data_name):
 
 def main():
     results_dir = '/mnt/data-test/results'  # Directory where the results pickle files are stored
-    data_name='cora'
+    data_name='pubmed'
     results = read_pickle_files(results_dir)
     print(type(results))
     print(results.keys)
