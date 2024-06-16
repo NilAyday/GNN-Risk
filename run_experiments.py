@@ -16,8 +16,11 @@ import argparse
 import uuid
 
 import gc
-del variables
+
+
+torch.cuda.empty_cache()
 gc.collect()
+del variables
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='cora', help='Dataset')
