@@ -530,12 +530,45 @@ class my_GraphConvolution12(nn.Module):
         return self.__class__.__name__ + ' (' \
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
+        
+class my_GraphConvolution13(nn.Module):
+    def __init__(self, in_features, out_features,nfeat,n, bias=True):
+        super(my_GraphConvolution13, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+        self.weight = Parameter(torch.FloatTensor(in_features, out_features))
+        if bias:
+            self.bias = Parameter(torch.FloatTensor(out_features))
+        else:
+            self.register_parameter('bias', None)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.weight.size(1))
+        self.weight.data.uniform_(-stdv, stdv)
+        if self.bias is not None:
+            self.bias.data.uniform_(-stdv, stdv)
+
+    def forward(self, input, adj,x):
+        
+        support=torch.mm(adj.to_dense(), input)
+        output = torch.mm(support, self.weight)
+        
+        if self.bias is not None:
+            return output + self.bias
+        else:
+            return output
+
+    def __repr__(self):
+        return self.__class__.__name__ + ' (' \
+               + str(self.in_features) + ' -> ' \
+               + str(self.out_features) + ')'
+        
 class my_GCN(nn.Module):
     def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
         super(my_GCN, self).__init__()
         self.layers = nn.ModuleList()
 
-        print(nhid_list)
         if nhid_list:
             # Input layer
             self.layers.append(conv_layer(nfeat, nhid_list[0], nfeat, n))
@@ -560,3 +593,35 @@ class my_GCN(nn.Module):
         h = self.layers[-1](h, adj, x)
         
         return F.log_softmax(h, dim=1)
+
+class my_GCN_I(nn.Module):
+    def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
+        super(my_GCN_I, self).__init__()
+        self.layers = nn.ModuleList()
+
+        if nhid_list:
+            # Input layer
+            self.layers.append(conv_layer(nfeat, nhid_list[0], nfeat, n))
+            # Hidden layers
+            for i in range(1, len(nhid_list)):
+                self.layers.append(conv_layer(nhid_list[i-1], nhid_list[i], nfeat, n))
+            # Output layer
+            self.layers.append(conv_layer(nhid_list[-1], nclass, nfeat, n))
+        else:
+            # Single output layer
+            self.layers.append(conv_layer(nfeat, nclass, nfeat, n))
+        
+        self.dropout = dropout
+
+    def forward(self, x, adj):
+        #h = x.detach().requires_grad_()
+        h= torch.from_numpy(create_identity_columns_matrix(n=x.shape[0], p=x.shape[1])).detach().requires_grad_().to(device)
+        
+        for i, layer in enumerate(self.layers[:-1]):
+            h = F.relu(layer(h, adj, x))
+            h = F.dropout(h, self.dropout, training=self.training)
+        
+        h = self.layers[-1](h, adj, x)
+        
+        return F.log_softmax(h, dim=1)
+
