@@ -64,10 +64,11 @@ def main():
     parser.add_argument('--model', type=str, default='model_1', help='Which model to train.')
     parser.add_argument('--dataset', type=str, default='cora', help='dataset.')
     args = parser.parse_args()
+    print(args.dataset)
     
     hyperparams = {
         'model': [args.model],
-        'dataset': [args.dataset],
+        'dataset': args.dataset,
         'epochs': 100,
         'patience':10,
         'runs': 10,
