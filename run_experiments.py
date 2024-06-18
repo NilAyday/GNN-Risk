@@ -86,7 +86,7 @@ elif args.model == "model_13":
 elif args.model == "model_14":
     conv_layer = my_GraphConvolution14
 elif args.model == "model_15":
-    conv_layer = my_GraphConvolution15
+    conv_layer = my_GraphConvolution14
 elif args.model == "model_16":
     conv_layer = my_GraphConvolution16
 elif args.model == "model_17":
@@ -109,7 +109,7 @@ for run in range(args.runs):
         best_epoch = 0
         best_val_acc = 0
 
-        if args.model == "model_13":
+        if args.model == "model_13" or args.model == "model_15":
             model = my_GCN_X_I(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
         else:
             model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
