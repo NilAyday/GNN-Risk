@@ -695,3 +695,34 @@ class my_GCN_X_I(nn.Module):
         
         return F.log_softmax(h, dim=1)
 
+class my_GCN_A_I(nn.Module):
+    def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
+        super(my_GCN_A_I, self).__init__()
+        self.layers = nn.ModuleList()
+
+        if nhid_list:
+            # Input layer
+            self.layers.append(conv_layer(nfeat, nhid_list[0], nfeat, n))
+            # Hidden layers
+            for i in range(1, len(nhid_list)):
+                self.layers.append(conv_layer(nhid_list[i-1], nhid_list[i], nfeat, n))
+            # Output layer
+            self.layers.append(conv_layer(nhid_list[-1], nclass, nfeat, n))
+        else:
+            # Single output layer
+            self.layers.append(conv_layer(nfeat, nclass, nfeat, n))
+        
+        self.dropout = dropout
+
+    def forward(self, x, adj):
+        h = x.detach().requires_grad_()
+        adj=torch.from_numpy(np.eye(x.shape[0]).astype(np.float32)).detach().requires_grad_().to(device)
+        
+        for i, layer in enumerate(self.layers[:-1]):
+            h = F.relu(layer(h, adj, x))
+            h = F.dropout(h, self.dropout, training=self.training)
+        
+        h = self.layers[-1](h, adj, x)
+        
+        return F.log_softmax(h, dim=1)
+
