@@ -696,6 +696,7 @@ class my_GCN_X_I(nn.Module):
 
     def forward(self, x, adj):
         #h = x.detach().requires_grad_()
+        device = torch.device('cuda')
         h= torch.from_numpy(create_identity_columns_matrix(n=x.shape[0], p=x.shape[1])).detach().requires_grad_().to(device)
         
         for i, layer in enumerate(self.layers[:-1]):
