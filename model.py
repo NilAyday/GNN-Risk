@@ -679,6 +679,7 @@ class my_GCN_X_I(nn.Module):
     def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
         super(my_GCN_X_I, self).__init__()
         self.layers = nn.ModuleList()
+        self.device= torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         if nhid_list:
             # Input layer
@@ -696,8 +697,8 @@ class my_GCN_X_I(nn.Module):
 
     def forward(self, x, adj):
         #h = x.detach().requires_grad_()
-        device = torch.device('cuda')
-        h= torch.from_numpy(create_identity_columns_matrix(n=x.shape[0], p=x.shape[1])).detach().requires_grad_().to(device)
+        
+        h= torch.from_numpy(create_identity_columns_matrix(n=x.shape[0], p=x.shape[1])).detach().requires_grad_().to(self.device)
         
         for i, layer in enumerate(self.layers[:-1]):
             h = F.relu(layer(h, adj, x))
