@@ -629,9 +629,9 @@ class my_GCN(nn.Module):
         
         return F.log_softmax(h, dim=1)
 
-class my_GCN_I(nn.Module):
+class my_GCN_X_I(nn.Module):
     def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
-        super(my_GCN_I, self).__init__()
+        super(my_GCN_X_I, self).__init__()
         self.layers = nn.ModuleList()
 
         if nhid_list:
