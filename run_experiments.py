@@ -110,7 +110,7 @@ for run in range(args.runs):
         best_val_acc = 0
 
         if args.model == "model_13":
-            model = my_GCN_I(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
+            model = my_GCN_X_I(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
         else:
             model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
             
