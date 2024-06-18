@@ -108,8 +108,12 @@ for run in range(args.runs):
         best = float('inf')
         best_epoch = 0
         best_val_acc = 0
-        
-        model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
+
+        if args.model == "model_13":
+            model = my_GCN_I(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
+        else:
+            model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
+            
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
 
         for epoch in range(args.epochs):
