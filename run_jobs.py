@@ -26,9 +26,7 @@ def hyperparam_combinations(hyperparams):
     return combinations
 
 def check_existing_results(combination):
-    model_name = "model_1"  # Modify this if you want to use other models
-    dataset = "cora"  # Modify this if you want to use other datasets
-    
+   
     
     nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',')])
     #nhid_list = str([int(float(i)) for i in combination['nhid_list'].replace(' ', '').split(',') if i]) if combination['nhid_list'] else combination['nhid_list']
@@ -64,11 +62,12 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='model_1', help='Which model to train.')
+    parser.add_argument('--dataset', type=str, default='cora', help='dataset.')
     args = parser.parse_args()
     
     hyperparams = {
         'model': [args.model],
-        'dataset': 'pubmed',
+        'dataset': [args.dataset],
         'epochs': 100,
         'patience':10,
         'runs': 10,
