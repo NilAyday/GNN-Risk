@@ -531,6 +531,17 @@ class my_GraphConvolution12(nn.Module):
                + str(self.in_features) + ' -> ' \
                + str(self.out_features) + ')'
         
+def create_identity_columns_matrix(n, p):
+    # Create an n x p matrix filled with zeros
+    matrix = np.zeros((n, p))
+    
+    # Iterate through the columns and set the appropriate row to 1
+    for i in range(p):
+        if i < n:  # Ensure we don't go out of bounds for non-square matrices
+            matrix[i, i] = 1
+            
+    return matrix.astype(np.float32)
+    
 class my_GraphConvolution13(nn.Module):
     def __init__(self, in_features, out_features,nfeat,n, bias=True):
         super(my_GraphConvolution13, self).__init__()
