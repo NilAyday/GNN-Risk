@@ -152,6 +152,9 @@ for run in range(args.runs):
 
         torch.cuda.empty_cache()
 
+        if os.path.exists(checkpt_file):
+            os.remove(checkpt_file)
+
 results.append({
     'run': run + 1,
     'val_acc_mean': np.mean(val_acc_list),
