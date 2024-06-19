@@ -712,7 +712,7 @@ class my_GCN_A_I(nn.Module):
     def __init__(self, nfeat, nhid_list, nclass, dropout, conv_layer, n):
         super(my_GCN_A_I, self).__init__()
         self.layers = nn.ModuleList()
-        sself.device= torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device= torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         if nhid_list:
             # Input layer
