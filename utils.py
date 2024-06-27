@@ -133,6 +133,12 @@ def load_citation(dataset_str="cora"):
     adj = sparse_mx_to_torch_sparse_tensor(adj)
     return adj, features, labels, idx_train, idx_val, idx_test
 
+def encode_onehot(labels):
+    classes = sorted(list(set(labels)))
+    classes_dict = {c: np.identity(len(classes))[i, :] for i, c in enumerate(classes)}
+    labels_onehot = np.array(list(map(classes_dict.get, labels)), dtype=np.int32)
+    return labels_onehot
+    
 def load_data(dataset="cora"):
     """Load citation network dataset."""
     print('Loading {} dataset...'.format(dataset))
