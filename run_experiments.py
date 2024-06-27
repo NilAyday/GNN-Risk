@@ -44,15 +44,14 @@ args.nhid_list = [int(float(i)) for i in args.nhid_list.replace(' ', '').split('
 
 if args.dataset=="wikipedia2":
     adj, features, labels,idx_train,idx_val,idx_test = load_data(args.dataset)
-    adj = adj.to(device)
 else:
     adj, features, labels,idx_train,idx_val,idx_test = load_citation(args.dataset)
-    adj = adj.to(device).coalesce()
+    adj = adj.coalesce()
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 features = features.to(device)
-
+ adj = adj.to(device)
 n=features.shape[0]
 nfeat=features.shape[1]
 nclass = len(torch.unique(labels))
