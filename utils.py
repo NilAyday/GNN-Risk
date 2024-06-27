@@ -151,7 +151,7 @@ def load_data(dataset="cora"):
     # build graph
     idx = np.array(idx_feature_labels[:, 0], dtype=np.int32)
     idx_map = {j: i for i, j in enumerate(idx)}
-    edges_unordered = np.genfromtxt("data/{}/{}.cites".format(dataset, dataset), dtype=np.int32)
+    edges_unordered = np.genfromtxt("/mnt/data-test/data/{}/{}.cites".format(dataset, dataset), dtype=np.int32)
     edges = np.array(list(map(idx_map.get, edges_unordered.flatten())),
                      dtype=np.int32).reshape(edges_unordered.shape)
     adj = sp.coo_matrix((np.ones(edges.shape[0]), (edges[:, 0], edges[:, 1])),
@@ -160,7 +160,7 @@ def load_data(dataset="cora"):
     # build symmetric adjacency matrix
     adj = adj + adj.T.multiply(adj.T > adj) - adj.multiply(adj.T > adj)
 
-    G = nx.read_edgelist("data/{}/{}.cites".format(dataset, dataset), nodetype=int, delimiter='\t')
+    G = nx.read_edgelist("/mnt/data-test/data/{}/{}.cites".format(dataset, dataset), nodetype=int, delimiter='\t')
 
     print('Dataset has {} nodes, {} edges, {} features.'.format(adj.shape[0], edges.shape[0], feature.shape[1]))
 
