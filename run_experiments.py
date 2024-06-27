@@ -42,8 +42,10 @@ args.nhid_list = [int(float(i)) for i in args.nhid_list.replace(' ', '').split('
 
 #if ',' in args.nhid_listeight_decay['nhid_list'] else []
 
-print(args.nhid_list)
-adj, features, labels,idx_train,idx_val,idx_test = load_citation(args.dataset)
+if args.dataset=="wiki2":
+    adj, features, labels,idx_train,idx_val,idx_test = load_data(args.dataset)
+else:
+    adj, features, labels,idx_train,idx_val,idx_test = load_citation(args.dataset)
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
