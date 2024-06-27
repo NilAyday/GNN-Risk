@@ -114,10 +114,7 @@ for run in range(args.runs):
 
         if args.model == "model_13" or args.model == "model_15":
             model = my_GCN_X_I(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
-            print("MODEL 13")
-            print(model)
-            quit
-        if args.model == "model_16" or args.model == "model_17":
+        elif args.model == "model_16" or args.model == "model_17":
             model = my_GCN_A_I(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
         else:
             model = my_GCN(nfeat, args.nhid_list, nclass, args.dropout, conv_layer,n).to(device)
