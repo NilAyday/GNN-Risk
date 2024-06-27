@@ -1,0 +1,10 @@
+import os
+import pickle
+
+results_dir = '/mnt/data-test/results'
+
+file_path = os.path.join(results_dir, 'model_13_dataset=cora_nhid=[32]_dropout=0.4_epochs=400_lr=0.05_wd=0.0005_patience=100_runs=10.pkl')
+
+with open(file_path, 'rb') as f:
+  data = pickle.load(f)
+print(data)
