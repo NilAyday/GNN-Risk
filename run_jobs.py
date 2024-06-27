@@ -69,8 +69,8 @@ def main():
     hyperparams = {
         'model': [args.model],
         'dataset': args.dataset,
-        'epochs': 100,
-        'patience':10,
+        'epochs': 400,
+        'patience':100,
         'runs': 10,
         'lr': [0.05, 0.01, 0.005, 0.001],
         'wd':[5e-4, 5e-3, 1e-4, 1e-3],
