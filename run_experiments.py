@@ -51,7 +51,7 @@ else:
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 features = features.to(device)
- adj = adj.to(device)
+adj = adj.to(device)
 n=features.shape[0]
 nfeat=features.shape[1]
 nclass = len(torch.unique(labels))
