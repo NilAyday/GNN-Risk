@@ -144,7 +144,7 @@ def load_data(dataset="cora"):
     """Load citation network dataset."""
     print('Loading {} dataset...'.format(dataset))
 
-    idx_feature_labels = np.genfromtxt("data/{}/{}.content".format(dataset, dataset), dtype=np.dtype(str))
+    idx_feature_labels = np.genfromtxt("/mnt/data-test/data/{}/{}.content".format(dataset, dataset), dtype=np.dtype(str))
     feature = sp.csr_matrix(idx_feature_labels[:, 1:-1], dtype=np.float32)
     labels = encode_onehot(idx_feature_labels[:, -1])
 
