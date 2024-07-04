@@ -38,7 +38,7 @@ def main():
     print(type(results))
     print(results.keys())
 
-    for model_name in ['model_1','model_2','model_3','model_4','model_5','model_6','model_7','model_8','model_9','model_10','model_11','model_12','model_13', 'model_14', 'model_15', 'model_16', 'model_17', 'model_18']:
+    for model_name in ['model_0','model_1','model_2','model_3','model_4','model_5','model_6','model_7','model_8','model_9','model_10','model_11','model_12','model_13', 'model_14', 'model_15', 'model_16', 'model_17', 'model_18']:
         print(f"Results for {model_name}:")
         for data_name in datasets:
             max_acc, max_acc_std, best_combination, test_acc, test_std = get_highest_accuracy(results, model_name, data_name)
