@@ -77,7 +77,8 @@ def find_repeat(source, elmt):
 def subspace_eigendecomposition(A, k):
     """Subspace of graph with dimension k"""
 
-    vals, vecs = scipy.linalg.eigh(A, subset_by_index=(A.shape[0]-k, A.shape[0]-1))
+    #vals, vecs = scipy.linalg.eigh(A, subset_by_index=(A.shape[0]-k, A.shape[0]-1))
+    vals, vecs = scipy.sparse.linalg.eigsh(A, k=k, which='LM')
     vals_unique_sorted = sorted(list(set(vals)), reverse=True)
 
     vecs_ordered = []
