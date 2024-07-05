@@ -157,8 +157,8 @@ igds = Ingredients(nodelist=node_list, G=G, X=X, A=A, Y=Y)
 for idx in range(num_scanning):
     print("Scanning round {}".format(idx+1))
     if idx == 0:
-        k_X_l=[int(x) for x in np.linspace(Y.shape[1], X.shape[1], num=num_k)]
-        k_A_l=[int(x) for x in np.linspace(Y.shape[1], A.shape[1], num=num_k)]
+        k_X_l=[int(x) for x in np.linspace(Y.shape[1], X.shape[1]-1, num=num_k)]
+        k_A_l=[int(x) for x in np.linspace(Y.shape[1], A.shape[1]-1, num=num_k)]
     else:
         k_X_opt_index = k_X_l.index(opt_results['k_X'])
         if k_X_opt_index == 0:
