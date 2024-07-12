@@ -27,6 +27,11 @@ import math
 
 from model import *
 
+import matplotlib.pyplot as plt
+import os
+
+
+
 def rdm_graph(G, nodelist, percent):
     """Reshuffle graph edges with percentage p (p>0)."""
     
@@ -237,5 +242,8 @@ plt.title('Cora')
 plt.legend()
 plt.grid(True)
 
+# Create the 'figures' directory if it doesn't exist
+if not os.path.exists('figures'):
+    os.makedirs('figures')
 
-plt.savefig('test_accuracy_plot.png', format='png', dpi=300)
+plt.savefig('figures/test_accuracy_plot.png', format='png', dpi=300)
