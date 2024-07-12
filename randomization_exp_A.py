@@ -244,5 +244,5 @@ plt.legend()
 plt.grid(True)
 
 # Save the figure as a pickle file
-with open('figures/test_accuracy_plot.pkl', 'wb') as f:
+with open('/mnt/data-test/figures/test_accuracy_plot.pkl', 'wb') as f:
     pickle.dump(plt.gcf(), f)
