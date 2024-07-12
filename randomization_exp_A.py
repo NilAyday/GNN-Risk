@@ -29,6 +29,7 @@ from model import *
 
 import matplotlib.pyplot as plt
 import os
+import pickle
 
 
 
@@ -242,8 +243,6 @@ plt.title('Cora')
 plt.legend()
 plt.grid(True)
 
-# Create the 'figures' directory if it doesn't exist
-if not os.path.exists('figures'):
-    os.makedirs('figures')
-
-plt.savefig('figures/test_accuracy_plot.png', format='png', dpi=300)
+# Save the figure as a pickle file
+with open('figures/test_accuracy_plot.pkl', 'wb') as f:
+    pickle.dump(plt.gcf(), f)
