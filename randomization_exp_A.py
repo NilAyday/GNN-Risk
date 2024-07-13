@@ -85,7 +85,7 @@ def rdm_graph(G, nodelist, percent):
     return torch.tensor(np.array(nx.adjacency_matrix(G_new, nodelist=nodelist).toarray(),dtype=np.float32)).to(device)
 
 device='cuda'
-adj, feature, labels,idx_train,idx_val,idx_test = load_citation('cora')
+adj, feature, labels,idx_train,idx_val,idx_test = load_citation('pubmed')
 
 
 A=adj.to_dense()
@@ -239,7 +239,7 @@ for model_name in ['AH','[A H]','AH (A=I)','[0.8*AH 0.1*H 0.1*X]']:
 
 plt.xlabel('Percentage of Randomization of A')
 plt.ylabel('Test Accuracy')
-plt.title('Cora')
+plt.title('Pubmed')
 plt.legend()
 plt.grid(True)
 
@@ -248,4 +248,4 @@ plt.grid(True)
 with open('/mnt/data-test/figures/test_accuracy_plot.pkl', 'wb') as f:
     pickle.dump(plt.gcf(), f)
 '''
-plt.savefig(os.path.join('/mnt/data-test/figures', 'test_accuracy_plot.png'), format='png', dpi=300)
+plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_A_1.png'), format='png', dpi=300)
