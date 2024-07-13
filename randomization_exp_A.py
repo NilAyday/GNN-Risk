@@ -136,7 +136,7 @@ def test(model,features,adj,optimizer):
         return loss_test.item(),acc_test.item()
 
 
-models =  ['AH','[0.8*AH 0.1*H 0.1*X]','AH (A=I)','[0.9AH 0.1H]']
+models =  ['AH','[AH H]','AH (A=I)','[AH X]']
 #['AH','[0.8*AH 0.2*A]','AH (A=I)']# Replace with your actual model names or instances
 percentages = [0.1,10,20,30,40,50,60,70,80,90,100]
 
@@ -156,7 +156,6 @@ for model_name in models:
     elif model_name== '[A H]':
         dropout=0.2
         model=my_GCN(feature_size,[16],num_classes,dropout,my_GraphConvolution14,n)
-         
         model=model.to(device)
         optimizer = optim.Adam(model.parameters(),lr=0.005,weight_decay=0.001)
     elif model_name== 'AH (A=I)':
@@ -179,6 +178,16 @@ for model_name in models:
         model=my_GCN(feature_size,[64],num_classes,dropout,my_GraphConvolution9,n)   
         model=model.to(device)
         optimizer = optim.Adam(model.parameters(),lr=0.001,weight_decay=0.001)
+    elif model_name== '[AH H]':
+        dropout=0.4
+        model=my_GCN(feature_size,[512, 128],num_classes,dropout,my_GraphConvolution11,n)  
+        model=model.to(device)
+        optimizer = optim.Adam(model.parameters(),lr=0.001,weight_decay=0.005)
+    elif model_name== '[AH X]':
+        dropout=0.4
+        model=my_GCN(feature_size,[16, 16],num_classes,dropout,my_GraphConvolution4,n)  
+        model=model.to(device)
+        optimizer = optim.Adam(model.parameters(),lr=0.01,weight_decay=0.001)
     
     
 
@@ -243,7 +252,7 @@ for model_name in models:
 # Plotting the results
 plt.figure(figsize=(10, 6))
 percentages=[0.1,10,20,30,40,50,60,70,80,90,100]
-for model_name in ['AH','[0.8*AH 0.1*H 0.1*X]','AH (A=I)','[0.9AH 0.1H]']:
+for model_name in  ['AH','[AH H]','AH (A=I)','[AH X]']:
     plt.errorbar(percentages, model_test_mean_acc[model_name], yerr=model_test_std_acc[model_name], 
                  fmt='-o', capsize=5, capthick=2, label=model_name)
 
@@ -258,4 +267,4 @@ plt.grid(True)
 with open('/mnt/data-test/figures/test_accuracy_plot.pkl', 'wb') as f:
     pickle.dump(plt.gcf(), f)
 '''
-plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_A_1.png'), format='png', dpi=300)
+plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_A_1_1.png'), format='png', dpi=300)
