@@ -243,7 +243,7 @@ for model_name in models:
 # Plotting the results
 plt.figure(figsize=(10, 6))
 percentages=[0.1,10,20,30,40,50,60,70,80,90,100]
-for model_name in ['AH','[A H]','AH (A=I)','[0.8*AH 0.1*H 0.1*X]']:
+for model_name in ['AH','[0.8*AH 0.1*H 0.1*X]','AH (A=I)','[0.9AH 0.1H]']:
     plt.errorbar(percentages, model_test_mean_acc[model_name], yerr=model_test_std_acc[model_name], 
                  fmt='-o', capsize=5, capthick=2, label=model_name)
 
