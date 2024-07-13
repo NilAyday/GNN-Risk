@@ -136,7 +136,7 @@ def test(model,features,adj,optimizer):
         return loss_test.item(),acc_test.item()
 
 
-models =  ['AH','[AH H]','AH (A=I)','[AH X]']
+models =  ['AH','AH (A=I)','[AH X]']
 #['AH','[0.8*AH 0.2*A]','AH (A=I)']# Replace with your actual model names or instances
 percentages = [0.1,10,20,30,40,50,60,70,80,90,100]
 
@@ -202,7 +202,7 @@ for model_name in models:
         adj=rdm_graph(G,  list(G.nodes),percent)
 
         # Run the training process 10 times for each percentage
-        for run in range(1):
+        for run in range(10):
             t_total = time.time()
             bad_counter = 0
             best = 999999999
@@ -252,7 +252,7 @@ for model_name in models:
 # Plotting the results
 plt.figure(figsize=(10, 6))
 percentages=[0.1,10,20,30,40,50,60,70,80,90,100]
-for model_name in  ['AH','[AH H]','AH (A=I)','[AH X]']:
+for model_name in  ['AH','AH (A=I)','[AH X]']:
     plt.errorbar(percentages, model_test_mean_acc[model_name], yerr=model_test_std_acc[model_name], 
                  fmt='-o', capsize=5, capthick=2, label=model_name)
 
@@ -267,4 +267,4 @@ plt.grid(True)
 with open('/mnt/data-test/figures/test_accuracy_plot.pkl', 'wb') as f:
     pickle.dump(plt.gcf(), f)
 '''
-plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_A_1_1.png'), format='png', dpi=300)
+plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_A_10.png'), format='png', dpi=300)
