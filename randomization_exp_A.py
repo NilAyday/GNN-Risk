@@ -136,8 +136,8 @@ def test(model,features,adj,optimizer):
         return loss_test.item(),acc_test.item()
 
 
-models =  ['AH','[A H]','AH (A=I)','[0.8*AH 0.1*H 0.1*X]']
-#['AH','[A H]','AH (A=I)','[0.8*AH 0.2*A]']# Replace with your actual model names or instances
+models =  ['AH','[0.8*AH 0.1*H 0.1*X]','AH (A=I)','[0.9AH 0.1H]']
+#['AH','[0.8*AH 0.2*A]','AH (A=I)']# Replace with your actual model names or instances
 percentages = [0.1,10,20,30,40,50,60,70,80,90,100]
 
 # Dictionary to store test accuracies for each model
@@ -169,6 +169,16 @@ for model_name in models:
         model=my_GCN(feature_size,[64],num_classes,dropout,my_GraphConvolution12,n)                                          
         model=model.to(device)
         optimizer = optim.Adam(model.parameters(),lr=0.01,weight_decay=0.001)
+    elif model_name== '[0.8*AH 0.1*H 0.1*X]':
+        dropout=0.2
+        model=my_GCN(feature_size,[64],num_classes,dropout,my_GraphConvolution10,n)                                          
+        model=model.to(device)
+        optimizer = optim.Adam(model.parameters(),lr=0.01,weight_decay=0.001)
+    elif model_name== '[0.9AH 0.1H]':
+        dropout=0.2
+        model=my_GCN(feature_size,[64],num_classes,dropout,my_GraphConvolution9,n)   
+        model=model.to(device)
+        optimizer = optim.Adam(model.parameters(),lr=0.001,weight_decay=0.001)
     
     
 
