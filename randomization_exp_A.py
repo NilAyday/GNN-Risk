@@ -243,6 +243,9 @@ plt.title('Cora')
 plt.legend()
 plt.grid(True)
 
+'''
 # Save the figure as a pickle file
 with open('/mnt/data-test/figures/test_accuracy_plot.pkl', 'wb') as f:
     pickle.dump(plt.gcf(), f)
+'''
+plt.savefig(os.path.join(save_dir, 'test_accuracy_plot.png'), format='png', dpi=300)
