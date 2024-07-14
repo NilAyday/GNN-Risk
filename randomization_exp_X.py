@@ -115,7 +115,7 @@ def test(model,features,adj,optimizer):
         return loss_test.item(),acc_test.item()
 
 
-models =  ['AH','[A H]','AH (X=I)']
+models =  ['AH','[A H]','AH (X=I)','[0.8*AH 0.2*A]']
 #['AH','[A H]','AH (A=I)','[0.8*AH 0.2*A]']# Replace with your actual model names or instances
 percentages = [0.1,10,20,30,40,50,60,70,80,90,100]
 
@@ -242,4 +242,4 @@ plt.title('Pubmed')
 plt.legend()
 plt.grid(True)
 
-plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_X_01.png'), format='png', dpi=300)
+plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_X_02.png'), format='png', dpi=300)
