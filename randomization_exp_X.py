@@ -64,7 +64,7 @@ def rdm_feature(X, percent):
     return torch.from_numpy(X_l_shuffled)
 
 device='cuda'
-adj, feature, labels,idx_train,idx_val,idx_test = load_citation('cora')
+adj, feature, labels,idx_train,idx_val,idx_test = load_citation('pubmed')
 
 
 A=adj.to_dense()
@@ -238,7 +238,7 @@ for model_name in  ['AH','[A H]','AH (X=I)']:
 
 plt.xlabel('Percentage of Randomization of X')
 plt.ylabel('Test Accuracy')
-plt.title('Cora')
+plt.title('Pubmed')
 plt.legend()
 plt.grid(True)
 
