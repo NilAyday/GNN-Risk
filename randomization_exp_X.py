@@ -115,7 +115,7 @@ def test(model,features,adj,optimizer):
         return loss_test.item(),acc_test.item()
 
 
-models =  ['AH','[A H]','AH (X=I)','[0.8*AH 0.2*A]']
+models =  ['AH','[A H]','AH (X=I)','[AH AX]','[AH A X]']
 #['AH','[A H]','AH (A=I)','[0.8*AH 0.2*A]']# Replace with your actual model names or instances
 percentages = [0.1,10,20,30,40,50,60,70,80,90,100]
 
@@ -168,6 +168,16 @@ for model_name in models:
         model=my_GCN(feature_size,[16, 16],num_classes,dropout,my_GraphConvolution4,n)  
         model=model.to(device)
         optimizer = optim.Adam(model.parameters(),lr=0.01,weight_decay=0.001)
+    elif model_name== '[AH AX]':
+        dropout=0.4
+        model=my_GCN(feature_size,[128],num_classes,dropout,my_GraphConvolution5,n)  
+        model=model.to(device)
+        optimizer = optim.Adam(model.parameters(),lr=0.005,weight_decay=0.005)
+    elif model_name== '[AH A X]':
+        dropout=0.5
+        model=my_GCN(feature_size,[32,16],num_classes,dropout,my_GraphConvolution1,n)  
+        model=model.to(device)
+        optimizer = optim.Adam(model.parameters(),lr=0.01,weight_decay=0.0005)
     
     
 
