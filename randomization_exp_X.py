@@ -115,7 +115,7 @@ def test(model,features,adj,optimizer):
         return loss_test.item(),acc_test.item()
 
 
-models =  ['AH','[A H]','AH (X=I)','[AH AX]','[AH A X]','[0.8*AH 0.2*A]']
+models =  ['AH','AH (X=I)','[AH A X]']
 #['AH','[A H]','AH (A=I)','[0.8*AH 0.2*A]']# Replace with your actual model names or instances
 percentages = [0.1,10,20,30,40,50,60,70,80,90,100]
 
@@ -192,7 +192,7 @@ for model_name in models:
         features = rdm_feature(initial_features, percent).to(device)
 
         # Run the training process 10 times for each percentage
-        for run in range(1):
+        for run in range(10):
             t_total = time.time()
             bad_counter = 0
             best = 999999999
@@ -242,7 +242,7 @@ for model_name in models:
 # Plotting the results
 plt.figure(figsize=(10, 6))
 percentages=[0.1,10,20,30,40,50,60,70,80,90,100]
-for model_name in   ['AH','[A H]','AH (X=I)','[AH AX]','[AH A X]','[0.8*AH 0.2*A]']:
+for model_name in   ['AH','AH (X=I)','[AH A X]']:
     plt.errorbar(percentages, model_test_mean_acc[model_name], yerr=model_test_std_acc[model_name], 
                  fmt='-o', capsize=5, capthick=2, label=model_name)
 
@@ -252,4 +252,4 @@ plt.title('Pubmed')
 plt.legend()
 plt.grid(True)
 
-plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_X_03.png'), format='png', dpi=300)
+plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_X_10_1.png'), format='png', dpi=300)
