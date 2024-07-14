@@ -242,4 +242,4 @@ plt.title('Pubmed')
 plt.legend()
 plt.grid(True)
 
-plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_X_1.png'), format='png', dpi=300)
+plt.savefig(os.path.join('/mnt/data-test/figures', 'pubmed_X_01.png'), format='png', dpi=300)
